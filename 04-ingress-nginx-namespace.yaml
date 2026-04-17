@@ -1,0 +1,6 @@
+# Nginx Ingress Controller — required for canary traffic splitting
+# Argo Rollouts uses Ingress to control traffic percentages
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ingress-nginx

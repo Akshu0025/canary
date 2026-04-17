@@ -1,0 +1,134 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-v1-page
+  namespace: canary-demo
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Canary Demo</title>
+      <style>
+        body {
+          background-color: #1a73e8;
+          color: white;
+          font-family: Arial, sans-serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+        }
+        .container {
+          text-align: center;
+          padding: 40px;
+          border-radius: 20px;
+          background: rgba(255,255,255,0.15);
+        }
+        h1 { font-size: 3em; margin-bottom: 10px; }
+        .version { font-size: 1.8em; }
+        .traffic { font-size: 1.2em; margin-top: 20px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 10px; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h1>&#x1F535; STABLE Version</h1>
+        <p class="version">v1.0 (BLUE)</p>
+        <p>This is the STABLE version</p>
+        <p>Image: nginx:1.24</p>
+        <div class="traffic">Currently receiving MOST of the traffic</div>
+      </div>
+    </body>
+    </html>
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-v2-page
+  namespace: canary-demo
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Canary Demo</title>
+      <style>
+        body {
+          background-color: #e65100;
+          color: white;
+          font-family: Arial, sans-serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+        }
+        .container {
+          text-align: center;
+          padding: 40px;
+          border-radius: 20px;
+          background: rgba(255,255,255,0.15);
+        }
+        h1 { font-size: 3em; margin-bottom: 10px; }
+        .version { font-size: 1.8em; }
+        .traffic { font-size: 1.2em; margin-top: 20px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 10px; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h1>&#x1F7E0; CANARY Version</h1>
+        <p class="version">v2.0 (ORANGE)</p>
+        <p>This is the CANARY version</p>
+        <p>Image: nginx:1.25</p>
+        <div class="traffic">Receiving only a SMALL % of traffic</div>
+      </div>
+    </body>
+    </html>
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-v3-page
+  namespace: canary-demo
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Canary Demo</title>
+      <style>
+        body {
+          background-color: #6a1b9a;
+          color: white;
+          font-family: Arial, sans-serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+        }
+        .container {
+          text-align: center;
+          padding: 40px;
+          border-radius: 20px;
+          background: rgba(255,255,255,0.15);
+        }
+        h1 { font-size: 3em; margin-bottom: 10px; }
+        .version { font-size: 1.8em; }
+        .traffic { font-size: 1.2em; margin-top: 20px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 10px; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h1>&#x1F7E3; CANARY Version</h1>
+        <p class="version">v3.0 (PURPLE)</p>
+        <p>This is the CANARY version</p>
+        <p>Image: nginx:1.26</p>
+        <div class="traffic">Receiving only a SMALL % of traffic</div>
+      </div>
+    </body>
+    </html>

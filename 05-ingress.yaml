@@ -1,0 +1,20 @@
+# Ingress resource for the canary app
+# Argo Rollouts will manage traffic splitting through this Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: canary-app-ingress
+  namespace: canary-demo
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: canary-app-stable
+            port:
+              number: 80

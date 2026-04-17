@@ -1,0 +1,66 @@
+# Canary Rollout — v1.0 (initial deploy)
+# Traffic will shift gradually: 20% → 50% → 80% → 100%
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: canary-app
+  namespace: canary-demo
+  labels:
+    app: canary-app
+spec:
+  replicas: 4
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: canary-app
+  strategy:
+    canary:
+      canaryService: canary-app-canary       # service for canary pods
+      stableService: canary-app-stable       # service for stable pods
+      trafficRouting:
+        nginx:
+          stableIngress: canary-app-ingress  # the Ingress to manage
+      steps:
+      #--- Step 1: Send 20% traffic to new version, pause for manual check
+      - setWeight: 20
+      - pause: {}
+
+      #--- Step 2: Send 50% traffic to new version, pause for manual check
+      - setWeight: 50
+      - pause: {}
+
+      #--- Step 3: Send 80% traffic to new version, auto-continue after 30s
+      - setWeight: 80
+      - pause: {duration: 30s}
+
+      #--- Step 4: 100% — fully promoted (automatic)
+  template:
+    metadata:
+      labels:
+        app: canary-app
+    spec:
+      containers:
+      - name: canary-app
+        image: nginx:1.24
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: html
+          mountPath: /usr/share/nginx/html
+        resources:
+          limits:
+            cpu: "100m"
+            memory: "128Mi"
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+      - name: html
+        configMap:
+          name: app-v1-page
