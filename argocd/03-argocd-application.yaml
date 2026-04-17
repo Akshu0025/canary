@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: canary-demo
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Akshu0025/blue-green.git
+    targetRevision: main
+    path: canary
+    directory:
+      recurse: false
+      include: '{01-namespace.yaml,02-configmaps.yaml,03-services.yaml,05-ingress.yaml,06-rollout.yaml}'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: canary-demo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
